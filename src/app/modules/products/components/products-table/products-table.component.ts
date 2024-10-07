@@ -32,5 +32,7 @@ export class ProductsTableComponent {
       this.deleteProductEvent.emit({productId, productName})
     }
   }
-
+  teste():void {
+    console.log('teste')
+  }
 }
