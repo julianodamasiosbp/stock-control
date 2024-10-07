@@ -57,6 +57,14 @@ export class ProductFormComponent implements OnInit, OnDestroy {
       });
   }
 
+  handleSubmitAddProduct(): void {
+    if (this.addProductForm.invalid) {
+      this.addProductForm.markAllAsTouched();
+      return;
+    }
+    console.log(this.addProductForm.value);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
