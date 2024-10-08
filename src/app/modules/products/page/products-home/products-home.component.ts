@@ -62,7 +62,6 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
   }
 
   handleProductAction(event: EventAction): void {
-    console.log(this.productsDatas);
     if (event) {
       this.ref = this.dialogService.open(ProductFormComponent, {
         header: event?.action,
