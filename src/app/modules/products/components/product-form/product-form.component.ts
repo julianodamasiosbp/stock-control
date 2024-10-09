@@ -38,7 +38,10 @@ export class ProductFormComponent implements OnInit, OnDestroy {
     price: ['', Validators.required],
     description: ['', Validators.required],
     amount: [0, Validators.required],
+    category_id: ['', Validators.required],
   });
+
+  public renderDropdown = false;
 
   public addProductAction = ProductEvent.ADD_PRODUCT_EVENT;
   public editProductAction = ProductEvent.EDIT_PRODUCT_EVENT;
@@ -55,30 +58,14 @@ export class ProductFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log("#######################");
-    console.log(this.ref.data);
-    console.log("#######################");
+
     this.productAction = this.ref.data;
 
-    console.log("#######################");
-    console.log(this.productAction?.event?.action);
-    console.log("#######################");
-
-    console.log("#######################");
-    console.log(this.editProductAction);
-    console.log("#######################");
-
-    console.log("#######################");
-    console.log(this.productAction?.productsDatas);
-    console.log("#######################");
-    if(this.productAction?.event?.action === this.editProductAction && this.productAction?.productsDatas){
-      console.log('ENTROU')
-      this.getProductSelectedDatas(this.productAction?.event?.id as string);
-    }
     if(this.productAction?.event?.action === this.saleProductAction){
       this.getProductDatas();
     }
     this.getAllCategories();
+    this.renderDropdown = true;
   }
 
 
@@ -94,6 +81,9 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         next: (response) => {
           if (response.length > 0) {
             this.categoriesData = response;
+            if(this.productAction?.event?.action === this.editProductAction && this.productAction?.productsDatas){
+              this.getProductSelectedDatas(this.productAction?.event?.id as string);
+            }
           }
         },
         error: (error) => {
@@ -149,7 +139,8 @@ export class ProductFormComponent implements OnInit, OnDestroy {
         price: this.editProductForm.value.price as string,
         description: this.editProductForm.value.description as string,
         amount: Number(this.editProductForm.value.amount),
-        product_id: this.productAction?.event?.id as string
+        product_id: this.productAction?.event?.id as string,
+        category_id: this.editProductForm.value.category_id as string,
       };
       this.productsService.editProduct(requestEditProduct)
       .pipe(takeUntil(this.destroy$))
@@ -186,6 +177,7 @@ export class ProductFormComponent implements OnInit, OnDestroy {
           price: productSelected.price,
           description: productSelected.description,
           amount: productSelected.amount,
+          category_id: productSelected.category.id
         });
       }
     }
