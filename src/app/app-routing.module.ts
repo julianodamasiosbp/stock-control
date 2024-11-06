@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './modules/home/home.component';
 import { AuthGuard } from './guards/auth-guard.service';
 
@@ -34,6 +34,14 @@ const routes: Routes = [
   }
 ];
 
+// Melhora o desempenho fazendo um pre carregamento dos modulos
+
+// @NgModule({
+//   imports: [RouterModule.forRoot(routes, {
+//     preloadingStrategy: PreloadAllModules
+//   })],
+//   exports: [RouterModule],
+// })
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
